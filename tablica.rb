@@ -1,34 +1,46 @@
 require 'matrix'
-require 'attr_extras'
+#require 'attr_extras'
 
-class Vector_generator
-  vattr_initialize :size
-
-  def values(size)
-
-   table=[size]
-    for i in 0...size
-      value=rand(1..size)
-      puts value
-
-      if(verification(table,value))
-        redo
-      else
-        table[i]=value
-      end
-
+class SquareUniqueMatrix
+#  vattr_initialize :table
+    def initialize(table)
+      @table=table
     end
-
-  def verification(table,value)
-    for i in 0...table.size
-      if(table[i]==value)
-        return true
-        break
+    def CreateMatrixValue(table)
+      (0...table.size).each do |i|
+        (0...table.size).each do |j|
+          temporary_value=rand(1..table.size)
+          if(UniqeValues(table[i],temporary_value))
+            puts temporary_value
+            redo
+          else
+            table[i].push(temporary_value)
+          end
+        end
       end
     end
-    return false
-  end
+
+    def to_s(table)
+      table.each do |i|
+        i.each do |j|
+          print "#{j}\t"
+        end
+        print "\n"
+      end
+    end
+
+    def UniqeValues(table,value)
+        duplication_wight=table.any?{|element| element==value}
+      return duplication_wight
+
 end
-vec=Vector_generator.new(3)
-vec.values()
+puts "podaj rozmiar macierzy"
+size = gets.chomp.to_i
+table=[]
+(0...size).each do |i|
+  table.push([])
+end
+SquareMatrix=SquareUniqueMatrix.new(table)
+SquareMatrix.CreateMatrixValue(table)
+SquareMatrix.to_s(table)
 end
