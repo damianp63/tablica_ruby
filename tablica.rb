@@ -7,14 +7,20 @@ class SquareUniqueMatrix
 
   def CreateMatrixValue(table)
     (0...table.size).each do |i|
-      (0...table.size).each do |j|
+      j=0
+      while j < table.size do
         temporary_value=rand(1..table.size)
-        print temporary_value
-        if(UniqeValues(table,i,j,temporary_value))
-          redo
-        else
+        if(DuplicationValues(table,i,j,temporary_value))
+            if(j==(table.size-1) && i!=0)
+              table.delete(table[i])
+              j=0
+            else
+               j=j
+             end
+           else
           table[i].push(temporary_value)
-        end
+          j+=1
+          end
       end
     end
   end
@@ -28,15 +34,13 @@ class SquareUniqueMatrix
     end
   end
 
-  def UniqeValues(table,hight,wight,value)
+  def DuplicationValues(table,hight,wight,value)
     temporary_table=[]
-    (0..hight).each do |i|
+    (0...hight).each do |i|
       temporary_table.push(table[i][wight])
     end
     duplication_hight=temporary_table.any?{|element| element==value}
     duplication_wight=table[hight].any?{|element| element==value}
-    print duplication_wight || duplication_hight
-    puts " "
     return duplication_wight || duplication_hight
   end
 
